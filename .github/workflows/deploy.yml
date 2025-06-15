@@ -1,20 +1,16 @@
-# File: .github/workflows/deploy.yml
-# This workflow automates the process of building the React app and deploying it to GitHub Pages
-
 name: Deploy React App to GitHub Pages
 
-# Trigger the workflow on every push to the 'main' branch
 on:
   push:
     branches:
-      - main  # Adjust the branch name if necessary
+      - main  # This triggers the action when there is a push to the 'main' branch
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest  # Runs the job on the latest Ubuntu runner
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code from the repository
+      # Step 1: Checkout code from the repository
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -22,19 +18,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'  # Set the Node.js version to 18 (adjust as needed)
+          node-version: '18'  # Ensure you're using a compatible Node.js version
 
-      # Step 3: Install project dependencies
+      # Step 3: Install dependencies
       - name: Install dependencies
-        run: npm install  # You can use `npm ci` if you are using a lockfile
+        run: npm install
 
       # Step 4: Build the React app
       - name: Build React app
-        run: npm run build  # This will create the build directory for the app
+        run: npm run build  # This command generates the production build
 
-      # Step 5: Deploy the build directory to GitHub Pages
+      # Step 5: Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # GitHub token to authenticate the deployment
-          publish_dir: ./build  # Specify the directory to deploy (which contains the production build)
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build  # The directory that contains the production build
